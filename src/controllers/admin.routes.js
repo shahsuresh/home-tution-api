@@ -3,10 +3,12 @@ import validateReqBody from "../middlewares/validation.middleware.js";
 import {
   adminDataValidationSchema,
   adminLoginDataValidationSchema,
+  updateAdminProfileValidationSchema,
 } from "../validations/admin.validation.js";
 import Admin from "../models/admin.model.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { isAdmin } from "../middlewares/authentication.middleware.js";
 
 const router = Router();
 
@@ -63,7 +65,7 @@ router.post(
         .send({ message: "The email or password you entered is incorrect." });
     }
     //generate accessToken
-    const payload = { id: user._id, email: user.email };
+    const payload = { id: user._id };
     const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SIGNATURE);
     //to hide user password
     user.password = undefined;
@@ -76,7 +78,33 @@ router.post(
   }
 );
 
+//?============ get profile/ admin data =================
+router.get("/admin/profile", isAdmin, async (req, res) => {
+  //extract user _id from req
+  const loggedInUserId = req.loggedInUserId;
+  //get user data with that _id and unselect password field
+  const userData = await Admin.findOne({ _id: loggedInUserId }).select(
+    "-password"
+  );
+  //send response
+  return res.status(200).send({ message: "Success", adminData: userData });
+});
+
 //?============ edit profile/ admin data =================
 
+router.put(
+  "/admin/profile/edit",
+  isAdmin,
+  validateReqBody(updateAdminProfileValidationSchema),
+  async (req, res) => {
+    //check for profile ownership
+    const loggedInUserId = req.loggedInUserId;
+    const newData = req.body;
+    await Admin.updateOne({ _id: loggedInUserId }, { $set: { ...newData } });
+    return res
+      .status(200)
+      .send({ message: "Update successful! Your changes have been saved." });
+  }
+);
 //export router
 export default router;
