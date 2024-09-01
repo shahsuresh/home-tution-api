@@ -1,5 +1,6 @@
 import Yup from "yup";
 
+//?========admin registration data validation============
 export const adminDataValidationSchema = Yup.object({
   firstName: Yup.string()
     .required("First Name is required")
@@ -21,6 +22,21 @@ export const adminDataValidationSchema = Yup.object({
     .max(65, "Email must be at max 65 characters.")
     .lowercase(),
 
+  password: Yup.string()
+    .required("Password Required")
+    .min(6, "Password must be at least 6 characters long")
+    .max(20, "Password must be at most 20 characters long...")
+    .trim(),
+});
+
+//?==============admin login data validation================
+export const adminLoginDataValidationSchema = Yup.object({
+  email: Yup.string()
+    .email("Must be a valid email.")
+    .required("Email is required")
+    .trim()
+    .max(65, "Email must be at max 65 characters.")
+    .lowercase(),
   password: Yup.string()
     .required("Password Required")
     .min(6, "Password must be at least 6 characters long")
