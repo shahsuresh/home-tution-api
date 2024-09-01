@@ -67,6 +67,7 @@ router.post(
     const plainPassword = loginData.password;
     const hashedPassword = user.password;
     const isPasswordMatch = await bcrypt.compare(plainPassword, hashedPassword);
+    //if wrong password,throw error
     if (!isPasswordMatch) {
       return res
         .status(404)
