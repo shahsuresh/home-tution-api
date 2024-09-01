@@ -2,6 +2,8 @@ import express from "express";
 import cors from "cors";
 import connectDB from "./src/db/connectDB.js";
 import teacherRoutes from "./src/controllers/teacher.routes.js";
+import studentRoutes from "./src/controllers/student.routes.js";
+import adminRoutes from "./src/controllers/admin.routes.js";
 
 const app = express();
 //? ==to make app understand json===
@@ -20,6 +22,8 @@ app.use(cors(corsOptions));
 connectDB();
 //?=====register routes======
 app.use(teacherRoutes);
+app.use(studentRoutes);
+app.use(adminRoutes);
 //?===server and PORT======
 const PORT = process.env.PORT;
 
