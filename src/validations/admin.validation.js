@@ -44,7 +44,7 @@ export const adminLoginDataValidationSchema = Yup.object({
     .trim(),
 });
 
-//?==============update admin data(profile) validation================
+//?============== update admin data(profile) validation================
 
 export const updateAdminProfileValidationSchema = Yup.object({
   firstName: Yup.string()
@@ -66,4 +66,23 @@ export const updateAdminProfileValidationSchema = Yup.object({
     .trim()
     .max(65, "Email must be at max 65 characters.")
     .lowercase(),
+});
+
+//?============== update admin password validation=====================
+
+export const updateAdminPasswordValidationSchema = Yup.object({
+  currentPassword: Yup.string()
+    .required("your current password is required")
+    .trim()
+    .max(20, "your current password must be at max 20 characters."),
+  newPassword: Yup.string()
+    .required("your new password is required")
+    .min(6, "password must be of min 6 characters")
+    .max(20, "password must be at max 20 characters.")
+    .trim(),
+  conformNewPassword: Yup.string()
+    .required("Please confirm your password")
+    .min(6, "password must be of min 6 characters")
+    .max(20, "password must be at max 20 characters.")
+    .oneOf([Yup.ref("newPassword"), null], "Passwords must match"),
 });
