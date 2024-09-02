@@ -61,4 +61,8 @@ export const studentDataValidationSchema = Yup.object({
     .max(100, "City Name must be of max 100 characters")
     .default("Koteshwor")
     .trim(),
+  status: Yup.string()
+    .required()
+    .default("Pending")
+    .oneOf(["Pending", "Completed"]),
 });
