@@ -70,6 +70,12 @@ const studentSchema = new mongoose.Schema(
       default: "Koteshwor",
       maxlength: [100, "Area Name must be of max 100 characters"],
     },
+    status: {
+      type: String,
+      required: true,
+      default: "Pending",
+      enum: ["Pending", "Completed"],
+    },
   },
   { timestamps: true }
 );
