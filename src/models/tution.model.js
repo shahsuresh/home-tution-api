@@ -9,7 +9,7 @@ const tutionSchema = new mongoose.Schema(
       trim: true,
     },
     subjects: {
-      type: String,
+      type: [String],
       required: true,
       trim: true,
     },
@@ -47,6 +47,12 @@ const tutionSchema = new mongoose.Schema(
       type: mongoose.ObjectId,
       ref: "teachers",
       required: true,
+    },
+    status: {
+      type: String,
+      required: true,
+      enum: ["Pending", "Completed"],
+      default: "Pending",
     },
   },
   { timestamps: true }
