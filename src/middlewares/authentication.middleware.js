@@ -53,7 +53,7 @@ export const isAdmin = async (req, res, next) => {
 
   // if not token ,throw error
   if (!token) {
-    return res.status(401).send({ message: "Unauthorized not token." });
+    return res.status(401).send({ message: "Unauthorized" });
   }
 
   let payload;
@@ -61,7 +61,7 @@ export const isAdmin = async (req, res, next) => {
     // verify token
     payload = jwt.verify(token, process.env.ACCESS_TOKEN_SIGNATURE);
   } catch (error) {
-    return res.status(401).send({ message: "Unauthorized.wrong token" });
+    return res.status(401).send({ message: "Unauthorized" });
   }
 
   // find user by email from payload
@@ -69,7 +69,7 @@ export const isAdmin = async (req, res, next) => {
 
   // if not user
   if (!user) {
-    return res.status(401).send({ message: "Unauthorized.not user" });
+    return res.status(401).send({ message: "Unauthorized" });
   }
 
   //    user role must be admin
