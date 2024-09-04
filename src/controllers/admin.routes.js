@@ -17,6 +17,8 @@ import Tution from "../models/tution.model.js";
 
 const router = Router();
 
+//!=============Admin functions for self profile ==================================
+
 //?============Register Admin=============================
 router.post(
   "/admin/register",
@@ -257,6 +259,7 @@ router.delete(
       .send({ message: "Student data deleted Successfully" });
   }
 );
+
 //!=============Tution functions for admin user===================================
 
 //?==========get tution list(posts) =============================
@@ -274,6 +277,20 @@ router.post("/admin/profile/tution/list", isAdmin, async (req, res) => {
       },
     },
     {
+      $unwind: "$teacherDetails",
+    },
+    {
+      $addFields: {
+        teacherName: {
+          $concat: [
+            "$teacherDetails.firstName",
+            " ",
+            "$teacherDetails.lastName",
+          ],
+        },
+      },
+    },
+    {
       $project: {
         _id: 0,
         name: 1,
@@ -281,10 +298,11 @@ router.post("/admin/profile/tution/list", isAdmin, async (req, res) => {
         price: 1,
         priceType: 1,
         subjects: 1,
-        teacherName: { $first: `$teacherDetails.firstName` },
+        teacherName: 1, // { $first: `$teacherDetails.firstName` },
       },
     },
   ]);
+  console.log(typeof tuitionList);
   //if no any tuition in the list, send message
   if (!tuitionList.length) {
     return res
@@ -295,6 +313,61 @@ router.post("/admin/profile/tution/list", isAdmin, async (req, res) => {
     .status(200)
     .send({ message: "Tuition List fetched", tuitionList: tuitionList });
 });
+
+//?==========delete tution(posts) posted by teacher ===========================
+router.delete(
+  "/admin/profile/tution/delete/:id",
+  isAdmin,
+  validateMongoIdFromReqParams,
+  async (req, res) => {
+    //extract tution id from req.params
+    const tutionID = req.params.id;
+    //find tution in db using this tutionID
+    const post = await Tution.findById(tutionID);
+    //if no post,throw error
+    if (!post) {
+      return res.status(200).send({ message: "Tution post does not exist" });
+    }
+    //delete
+    await Tution.deleteOne({ _id: tutionID });
+    //send response
+    res.status(200).send({ message: "One post has been removed successfully" });
+  }
+);
+
+//?==========update status of tution(posts) posted by teacher ======================
+
+router.put(
+  "/admin/profile/tution/update/:id",
+  isAdmin,
+  validateMongoIdFromReqParams,
+  async (req, res) => {
+    //extract id from params
+    const tutionID = req.params.id;
+    //find tution post by this id
+    const post = await Tution.findById(tutionID);
+    //if not post found, throw error
+    if (!post) {
+      return res.status(400).send({ message: "No any tution post found" });
+    }
+    //update status
+    try {
+      await Tution.updateOne(
+        { _id: tutionID },
+        { $set: { status: "Completed" } }
+      );
+    } catch (error) {
+      return res
+        .status(400)
+        .send({ message: "Something went wrong! Please Try again" });
+    }
+
+    //send response
+    return res
+      .status(200)
+      .send({ message: "Tution Status Updated Successfully" });
+  }
+);
 
 //!=============Teacher functions for admin user==================================
 
