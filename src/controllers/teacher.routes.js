@@ -43,9 +43,9 @@ router.post(
     const responseData = { ...newTeacherData, password: undefined };
     // send response
 
-    return res
-      .status(201)
-      .send({ message: "Registration Success", teacherData: responseData });
+    return res.status(201).send({
+      message: `${responseData.firstName.toUpperCase()} Your Registration is Successful`,
+    });
   }
 );
 
@@ -74,7 +74,7 @@ router.post(
         .send({ message: "The email or password you entered is incorrect." });
     }
     //generate access token
-    const payload = { id: user._id, email: user.email };
+    const payload = { id: user._id, email: user.email, name: user.firstName };
     const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SIGNATURE);
     //to hide user password
     user.password = undefined;
@@ -137,6 +137,7 @@ router.post(
           forClass: 1,
           price: 1,
           priceType: 1,
+          status: 1,
           // teacherDetails:1,
         },
       },
