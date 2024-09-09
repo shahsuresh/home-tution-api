@@ -8,6 +8,7 @@ import adminRoutes from "./src/controllers/admin.routes.js";
 const app = express();
 //? ==to make app understand json===
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 //?=== enable cors===
 
