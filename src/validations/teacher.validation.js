@@ -1,5 +1,7 @@
 import Yup from "yup";
 
+//?=====Register teacher validation schema==========
+
 export const registerTeacherValidationSchema = Yup.object({
   firstName: Yup.string()
     .required("First Name is required")
@@ -47,6 +49,7 @@ export const registerTeacherValidationSchema = Yup.object({
     .max(100, "City Name must be of max 100 characters")
     .default("Koteshwor")
     .trim(),
+  role: Yup.string().default("teacher"),
 });
 
 //?=====login user validation==========

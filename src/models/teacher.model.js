@@ -62,6 +62,11 @@ const teacherSchema = new mongoose.Schema(
       default: "Koteshwor",
       maxlength: [100, "Area Name must be of max 100 characters"],
     },
+    role: {
+      type: String,
+      required: [true, "Role is required"],
+      default: "teacher",
+    },
   },
   { timestamps: true }
 );

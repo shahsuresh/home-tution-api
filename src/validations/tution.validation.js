@@ -15,18 +15,11 @@ export const tutionPostValidationSchema = Yup.object({
     .required("For which class of student you want to teach?")
     .oneOf(
       [
-        "1",
-        "2",
-        "3",
-        "4",
-        "5",
-        "6",
-        "7",
-        "8",
-        "9",
-        "10",
-        "11",
-        "12",
+        "Primary",
+        "Lower Secondary",
+        "Secondary",
+        "+2-11th",
+        "+2-12th",
         "Bachelor",
       ],
       "Class must be from 1 to 12 and Bachelor"
