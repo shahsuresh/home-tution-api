@@ -87,6 +87,25 @@ router.post(
   }
 );
 
+//?========== get Profile data =========================
+
+router.get("/teacher/profile", isTeacher, async (req, res) => {
+  //extract userID from req
+  const userID = req.loggedInUserId;
+  //find teacher data using that userID
+  const profileData = await Teacher.findOne(
+    { _id: userID },
+    { _id: 0, updatedAt: 0 }
+  );
+
+  if (!profileData) {
+    return res.status(400).send({ message: "Error getting your data" });
+  }
+  profileData.password = undefined;
+  //send response
+  res.status(200).send({ message: "success", profileData });
+});
+
 //?============== Add homeTution Data/post =======================
 
 router.post(
