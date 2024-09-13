@@ -33,6 +33,12 @@ const adminSchema = mongoose.Schema(
       minlength: [6, "Password must be at least 6 characters long"],
       trim: true,
     },
+    role: {
+      type: String,
+      required: [true, "Role is required"],
+      enum: ["admin", "adminRolePending"],
+      default: "adminRolePending",
+    },
   },
   { timestamps: true }
 );

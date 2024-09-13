@@ -27,6 +27,10 @@ export const adminDataValidationSchema = Yup.object({
     .min(6, "Password must be at least 6 characters long")
     .max(20, "Password must be at most 20 characters long...")
     .trim(),
+  role: Yup.string()
+    .required("role is required")
+    .oneOf(["admin", "adminRolePending"])
+    .default("adminRolePending"),
 });
 
 //?==============admin login data validation=========================
@@ -47,14 +51,14 @@ export const adminLoginDataValidationSchema = Yup.object({
 //?============== update admin data(profile) validation================
 
 export const updateAdminProfileValidationSchema = Yup.object({
-  firstName: Yup.string()
-    .required("First Name is required")
-    .trim()
-    .max(35, "First name must be at max 35 characters."),
-  lastName: Yup.string()
-    .max(35, "Last name must be at max 35 characters.")
-    .trim()
-    .required("Last name is required."),
+  // firstName: Yup.string()
+  //   .required("First Name is required")
+  //   .trim()
+  //   .max(35, "First name must be at max 35 characters."),
+  // lastName: Yup.string()
+  //   .max(35, "Last name must be at max 35 characters.")
+  //   .trim()
+  //   .required("Last name is required."),
   mobile: Yup.string().matches(
     /^\d{10}$/,
     "Mobile number must be exactly 10 digits"
