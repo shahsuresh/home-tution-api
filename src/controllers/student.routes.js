@@ -19,7 +19,10 @@ router.post(
       //send response
       res
         .status(200)
-        .send({ message: "Your request has been submitted successfully" });
+        .send({
+          message:
+            "Your request has been submitted successfully. We Will get back to you soon.",
+        });
     } catch (error) {
       res.status(400).send({
         message:

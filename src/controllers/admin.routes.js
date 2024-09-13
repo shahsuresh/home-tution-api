@@ -43,7 +43,10 @@ router.post(
     //register to database
     await Admin.create(adminData);
     //send response
-    return res.status(200).send({ message: "Registration Success" });
+    return res.status(200).send({
+      message:
+        "Welcome! Your account verification is on its way.You will soon receive a confirmation email,once your account is verified . ",
+    });
   }
 );
 
