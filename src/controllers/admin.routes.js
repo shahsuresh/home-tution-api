@@ -180,7 +180,7 @@ router.post("/admin/profile/student-list", isAdmin, async (req, res) => {
     },
     {
       $project: {
-        _id: 0,
+        _id: 1,
         firstName: 1,
         lastName: 1,
         mobile: 1,
@@ -214,13 +214,18 @@ router.put(
   async (req, res) => {
     //extract id from req.params.id
     const studentID = req.params.id;
-    console.log(studentID);
+    // console.log(studentID);
     //find student by id
     const student = await Student.findById(studentID);
 
     //if not student, throw error
     if (!student) {
       return res.status(404).send({ message: "Student does not exist" });
+    }
+    if (student.status === "Completed") {
+      return res
+        .status(200)
+        .send({ message: "Student Status is already Updated." });
     }
     //update/edit student status
 
@@ -259,7 +264,7 @@ router.delete(
     //send response
     return res
       .status(200)
-      .send({ message: "Student data deleted Successfully" });
+      .send({ message: "One Student data deleted Successfully" });
   }
 );
 
@@ -295,17 +300,18 @@ router.post("/admin/profile/tution/list", isAdmin, async (req, res) => {
     },
     {
       $project: {
-        _id: 0,
+        _id: 1,
         name: 1,
         forClass: 1,
         price: 1,
         priceType: 1,
         subjects: 1,
+        status: 1,
         teacherName: 1, // { $first: `$teacherDetails.firstName` },
       },
     },
   ]);
-  console.log(typeof tuitionList);
+  // console.log(typeof tuitionList);
   //if no any tuition in the list, send message
   if (!tuitionList.length) {
     return res
@@ -353,6 +359,9 @@ router.put(
     if (!post) {
       return res.status(400).send({ message: "No any tution post found" });
     }
+    if (post.status === "Completed") {
+      return res.status(200).send({ message: "Status is already updated" });
+    }
     //update status
     try {
       await Tution.updateOne(
@@ -382,7 +391,7 @@ router.get("/admin/profile/teacher-list", isAdmin, async (req, res) => {
     },
     {
       $project: {
-        _id: 0,
+        _id: 1,
         firstName: 1,
         lastName: 1,
         mobile: 1,
@@ -396,7 +405,7 @@ router.get("/admin/profile/teacher-list", isAdmin, async (req, res) => {
     },
   ]);
 
-  //if no any students in the list, send message
+  //if no any teachers in the list, send message
   if (!teacherList.length) {
     return res
       .status(200)
@@ -423,7 +432,24 @@ router.delete(
     if (!teacher) {
       return res.status(404).send({ message: "teacher does not exist" });
     }
-    //delete teacher
+    //?=================to delete teacher data ======================
+    // Step 1: Check if the teacher has any tution data
+    const tutionExists = await Tution.findOne({
+      teacherDetails: teacherID,
+    });
+    if (tutionExists) {
+      return res.status(200).send({
+        message: "Teacher has associated tution data. Cannot delete.",
+      });
+    }
+    // Step 2: Delete the teacher if no tution data exists
+    // if (!tutionExists) {
+
+    //   const deleteResult = await Teacher.deleteOne({ _id: teacherID });
+    // }
+
+    //*==============================================
+    //delete teacher,if no tution data exists
 
     await Teacher.deleteOne({ _id: teacherID });
 

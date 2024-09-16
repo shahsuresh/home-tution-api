@@ -22,7 +22,7 @@ export const tutionPostValidationSchema = Yup.object({
         "+2-12th",
         "Bachelor",
       ],
-      "Class must be from 1 to 12 and Bachelor"
+      "Class must be from Primary,Lower Secondary,Secondary, +2-11th,+2-12th and Bachelor"
     ),
 
   price: Yup.number("Must be positive Integer")
