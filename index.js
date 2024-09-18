@@ -4,6 +4,7 @@ import connectDB from "./src/db/connectDB.js";
 import teacherRoutes from "./src/controllers/teacher.routes.js";
 import studentRoutes from "./src/controllers/student.routes.js";
 import adminRoutes from "./src/controllers/admin.routes.js";
+import contactFormRoutes from "./src/controllers/contactForm.routes.js";
 
 const app = express();
 //? ==to make app understand json===
@@ -25,6 +26,7 @@ connectDB();
 app.use(teacherRoutes);
 app.use(studentRoutes);
 app.use(adminRoutes);
+app.use(contactFormRoutes);
 //?===server and PORT======
 const PORT = process.env.PORT;
 
