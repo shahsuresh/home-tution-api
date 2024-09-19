@@ -37,6 +37,12 @@ const contactFormSchema = new mongoose.Schema(
       required: false,
       maxlength: [300, "message must be at most 300 characters"],
     },
+    status: {
+      type: String,
+      required: true,
+      enum: ["Pending", "Contacted"],
+      default: "Pending",
+    },
   },
   { timestamps: true }
 );

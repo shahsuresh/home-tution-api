@@ -12,5 +12,9 @@ const contactFormValidationSchema = Yup.object({
     .required("Subject is required")
     .max(150, "Subject must be at most 150 characters"),
   message: Yup.string().max(300, "message must be at most 300 characters"),
+  status: Yup.string()
+    .required()
+    .oneOf(["Pending", "Contacted"])
+    .default("Pending"),
 });
 export default contactFormValidationSchema;
