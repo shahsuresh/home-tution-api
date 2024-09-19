@@ -14,6 +14,7 @@ import Student from "../models/student.model.js";
 import validateMongoIdFromReqParams from "../middlewares/validateMongoID.middleware.js";
 import Teacher from "../models/teacher.model.js";
 import Tution from "../models/tution.model.js";
+import ContactForm from "../models/contactForm.model.js";
 
 const router = Router();
 
@@ -460,5 +461,100 @@ router.delete(
   }
 );
 
+//!=============Contact Form functions for admin user==================================
+//?=====================api to get all contact form data ==============
+router.get("/contact-form/data", isAdmin, async (req, res) => {
+  //db call to fetch form data
+  const contactFormData = await ContactForm.aggregate([
+    {
+      $match: {},
+    },
+    {
+      $project: {
+        _id: 1,
+        firstName: 1,
+        lastName: 1,
+        email: 1,
+        mobileNo: 1,
+        subject: 1,
+        message: 1,
+        status: 1,
+      },
+    },
+  ]);
+  //if no any data, send this response
+  if (!contactFormData.length) {
+    return res
+      .status(200)
+      .send({ message: "No any contact form data available." });
+  }
+  //send response with contact form data
+  return res
+    .status(200)
+    .send({ message: "Success", contactFormData: contactFormData });
+});
+
+//?========== api to update contact form data status(by id) ==============
+
+router.put(
+  "/contact-form/data/update/:id",
+  isAdmin,
+  validateMongoIdFromReqParams,
+  async (req, res) => {
+    //extract contact form data id from params
+    const formDataId = req.params.id;
+    console.log(formDataId);
+    // find form data with formDataId in db
+    const contactFormData = await ContactForm.findOne({ _id: formDataId });
+    console.log(contactFormData);
+    // if no data found, send that response
+    if (!contactFormData) {
+      return res.status(200).send({ message: "No Data found" });
+    }
+    //check if status is already updated to "Completed"
+    if (contactFormData.status === "Contacted") {
+      return res
+        .status(200)
+        .send({ message: "Status is already updated to -Contacted-" });
+    }
+    //update status
+    await ContactForm.updateOne(
+      { _id: formDataId },
+      { $set: { status: "Contacted" } }
+    );
+
+    //send response
+    return res.status(200).send({ message: "Status Updating Success" });
+  }
+);
+
+//?========== api to delete contact form data(by id) ==============
+
+router.delete(
+  "/contact-form/data/delete/:id",
+  isAdmin,
+  validateMongoIdFromReqParams,
+  async (req, res) => {
+    //extract contact form data id from params
+    const formDataId = req.params.id;
+
+    // find form data with formDataId in db
+    const contactFormData = await ContactForm.findOne({ _id: formDataId });
+    // if no data found, send that response
+    if (!contactFormData) {
+      return res.status(200).send({ message: "No Data found" });
+    }
+    //get user name
+    const userName = `${contactFormData?.firstName} ${contactFormData?.lastName}`;
+    console.log(userName);
+    //delete data
+    await ContactForm.deleteOne({ _id: formDataId });
+
+    //send response
+    return res
+      .status(200)
+      .send({ message: `${userName} data deleted Successfully` });
+  }
+);
 //export router
 export default router;
