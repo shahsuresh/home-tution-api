@@ -5,6 +5,7 @@ import validateReqBody from "../middlewares/validation.middleware.js";
 import {
   loginTeacherValidationSchema,
   registerTeacherValidationSchema,
+  updateTeacherPasswordValidationSchema,
 } from "../validations/teacher.validation.js";
 import jwt from "jsonwebtoken";
 import { isTeacher } from "../middlewares/authentication.middleware.js";
@@ -271,4 +272,58 @@ router.delete(
       .send({ message: "The post has been successfully deleted." });
   }
 );
+
+//?================= change password ==================================
+router.put(
+  "/teacher/profile/change-password",
+  isTeacher,
+  validateReqBody(updateTeacherPasswordValidationSchema),
+  async (req, res) => {
+    //extract currentPassword, newPassword, conformNewPassword from req.body
+    const { currentPassword, newPassword, conformNewPassword } = req.body;
+    //get userId from req
+    const loggedInUserId = req.loggedInUserId;
+    //get user data from db
+    const user = await Teacher.findOne({ _id: loggedInUserId });
+    if (!user) {
+      return res.status(400).send({ message: "No user found! Login first" });
+    }
+    //get user current hashed password from db
+    const currentHashedPassword = user.password;
+
+    //compare currentHashedPassword with user current plain password
+    const isCurrentPasswordMatch = await bcrypt.compare(
+      currentPassword,
+      currentHashedPassword
+    );
+
+    //if not password matched throw error
+    if (!isCurrentPasswordMatch) {
+      return res
+        .status(400)
+        .send({ message: "Incorrect current password. Please try again." });
+    }
+    //newPassword and conformNewPassword should be same(validated using validation schema)
+    //hash new plain password
+    const newPlainPassword = conformNewPassword;
+    const saltRound = 10;
+    const newHashedPassword = await bcrypt.hash(newPlainPassword, saltRound);
+    //update password with newHashedPassword
+    try {
+      await Teacher.updateOne(
+        { _id: loggedInUserId },
+        { $set: { password: newHashedPassword } }
+      );
+    } catch (error) {
+      console.log(error.message);
+      res.status(400).send({ message: "Error updating your password" });
+    }
+
+    return res.status(200).send({
+      message:
+        "Your password has been successfully changed.\nPlease use your new password the next time you log in.",
+    });
+  }
+);
+
 export default router;
