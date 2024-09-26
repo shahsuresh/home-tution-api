@@ -13,6 +13,11 @@ import Tution from "../models/tution.model.js";
 import { tutionPostValidationSchema } from "../validations/tution.validation.js";
 import { paginationValidationSchema } from "../validations/pagination.validation.js";
 import validateMongoIdFromReqParams from "../middlewares/validateMongoID.middleware.js";
+import {
+  passwordChangedEmail,
+  teacherRegistrationSuccessEmail,
+} from "../services/emailTemplate.js";
+import sendEmail from "../services/email.js";
 
 const router = Router();
 
@@ -23,6 +28,12 @@ router.post(
   async (req, res) => {
     // extract new teacher data from req.body
     const newTeacherData = req.body;
+
+    //get teacher fullName
+    const teacherFullName = `${newTeacherData.firstName} ${newTeacherData.lastName}`;
+
+    // Generate the HTML content by calling the template function
+    const htmlContent = teacherRegistrationSuccessEmail(teacherFullName);
 
     //check if this user is already registered
 
@@ -38,15 +49,27 @@ router.post(
     // convert plain password into hashed password
     const hashedPassword = await bcrypt.hash(plainPassword, saltRound);
     newTeacherData.password = hashedPassword;
-    // register user data in db
-    await Teacher.create(newTeacherData);
-    //exclude password field from response data
-    const responseData = { ...newTeacherData, password: undefined };
-    // send response
 
-    return res.status(201).send({
-      message: `${responseData.firstName.toUpperCase()} Your Registration is Successful`,
-    });
+    try {
+      // register user data in db
+      await Teacher.create(newTeacherData);
+      //exclude password field from response data
+      const responseData = { ...newTeacherData, password: undefined };
+      // send email to user with html content
+      sendEmail(
+        newTeacherData.email,
+        "Registration Success",
+        "Thank you for registering with us.",
+        htmlContent
+      );
+      // send response
+
+      return res.status(201).send({
+        message: `${responseData.firstName.toUpperCase()} Your Registration is Successful`,
+      });
+    } catch (error) {
+      return res.status(500).send({ message: "Internal Server Error" });
+    }
   }
 );
 
@@ -281,13 +304,24 @@ router.put(
   async (req, res) => {
     //extract currentPassword, newPassword, conformNewPassword from req.body
     const { currentPassword, newPassword, conformNewPassword } = req.body;
+
     //get userId from req
     const loggedInUserId = req.loggedInUserId;
+
     //get user data from db
     const user = await Teacher.findOne({ _id: loggedInUserId });
     if (!user) {
       return res.status(400).send({ message: "No user found! Login first" });
     }
+
+    // get user fullName
+
+    const teacherFullName = `${user.firstName} ${user.lastName}`;
+
+    // Generate the HTML content by calling the template function
+
+    const htmlContent = passwordChangedEmail(teacherFullName);
+
     //get user current hashed password from db
     const currentHashedPassword = user.password;
 
@@ -308,21 +342,29 @@ router.put(
     const newPlainPassword = conformNewPassword;
     const saltRound = 10;
     const newHashedPassword = await bcrypt.hash(newPlainPassword, saltRound);
+
     //update password with newHashedPassword
     try {
       await Teacher.updateOne(
         { _id: loggedInUserId },
         { $set: { password: newHashedPassword } }
       );
+
+      //send email to user with html content to notify password change
+      sendEmail(
+        user.email,
+        "Password Changed",
+        "Your password has been changed.",
+        htmlContent
+      );
+      return res.status(200).send({
+        message:
+          "Your password has been successfully changed.\nPlease use your new password the next time you log in.",
+      });
     } catch (error) {
       console.log(error.message);
       res.status(400).send({ message: "Error updating your password" });
     }
-
-    return res.status(200).send({
-      message:
-        "Your password has been successfully changed.\nPlease use your new password the next time you log in.",
-    });
   }
 );
 

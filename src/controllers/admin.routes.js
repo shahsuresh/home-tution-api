@@ -15,6 +15,7 @@ import validateMongoIdFromReqParams from "../middlewares/validateMongoID.middlew
 import Teacher from "../models/teacher.model.js";
 import Tution from "../models/tution.model.js";
 import ContactForm from "../models/contactForm.model.js";
+import { passwordChangedEmail } from "../services/emailTemplate.js";
 
 const router = Router();
 
@@ -133,6 +134,12 @@ router.put(
     if (!user) {
       return res.status(400).send({ message: "No user found! Login first" });
     }
+    //get user full name
+    const fullName = `${user.firstName} ${user.lastName}`;
+
+    // Generate the HTML content by calling the template function
+    const htmlContent = passwordChangedEmail(fullName);
+
     //get user current hashed password from db
     const currentHashedPassword = user.password;
 
@@ -153,21 +160,32 @@ router.put(
     const newPlainPassword = conformNewPassword;
     const saltRound = 10;
     const newHashedPassword = await bcrypt.hash(newPlainPassword, saltRound);
-    //update password with newHashedPassword
+
     try {
+      //update password with newHashedPassword
+
       await Admin.updateOne(
         { _id: loggedInUserId },
         { $set: { password: newHashedPassword } }
       );
+
+      //send email to user with the password changed information
+      sendEmail(
+        user.email,
+        "Password Changed",
+        "Password Changed Successfully",
+        htmlContent
+      );
+
+      //send response
+      return res.status(200).send({
+        message:
+          "Your password has been successfully changed.\nPlease use your new password the next time you log in.",
+      });
     } catch (error) {
       console.log(error.message);
       res.status(400).send({ message: "Error updating your password" });
     }
-
-    return res.status(200).send({
-      message:
-        "Your password has been successfully changed.\nPlease use your new password the next time you log in.",
-    });
   }
 );
 
