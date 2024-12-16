@@ -15,6 +15,8 @@ app.use(express.urlencoded({ extended: true }));
 
 const corsOptions = {
   origin: "*",
+  methods: ["GET", "POST", "PUT", "DELETE"], //allowed methods
+  allowedHeaders: ["Content-Type", "Authorization"],
   optionsSuccessStatus: 200,
 };
 
@@ -29,6 +31,11 @@ app.use(adminRoutes);
 app.use(contactFormRoutes);
 //?===server and PORT======
 const PORT = process.env.PORT;
+
+// Define a route for the root URL: just to show message about app running or not
+app.get("/", (req, res) => {
+  res.send("API is running successfully!");
+});
 
 app.listen(PORT, () => {
   console.log(`Server is running at:http://localhost:${PORT}/`);
