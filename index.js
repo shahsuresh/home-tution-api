@@ -15,7 +15,7 @@ app.use(express.urlencoded({ extended: true }));
 
 const corsOptions = {
   // origin: "*",
-  origin: "https://home-tution-frontend-ui.vercel.app", // frontend URL
+  origin: process.env.front_end_URL, // frontend URL
   methods: ["GET", "POST", "PUT", "DELETE"], //allowed methods
   credentials: true, // Include credentials (cookies, authorization headers, etc.)
   allowedHeaders: ["Content-Type", "Authorization"],
