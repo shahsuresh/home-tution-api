@@ -35,9 +35,9 @@ app.use(contactFormRoutes);
 const PORT = process.env.PORT;
 
 // Define a route for the root URL: just to show message about app running or not
-app.get("/", (req, res) => {
-  res.send("API is running successfully!");
-});
+// app.get("/", (req, res) => {
+//   res.send("API is running successfully!");
+// });
 
 app.listen(PORT, () => {
   console.log(`Server is running at:http://localhost:${PORT}/`);
