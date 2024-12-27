@@ -40,7 +40,9 @@ router.post(
     const userEmail = await Teacher.findOne({ email: newTeacherData.email });
 
     if (userEmail) {
-      return res.status(400).send({ message: "Already Registered" });
+      return res
+        .status(400)
+        .send({ message: "User Already Registered! Please proceed to login" });
     }
     // extract password from user data
 
@@ -56,7 +58,7 @@ router.post(
       //exclude password field from response data
       const responseData = { ...newTeacherData, password: undefined };
       // send email to user with html content
-      sendEmail(
+      await sendEmail(
         newTeacherData.email,
         "Registration Success",
         "Thank you for registering with us.",
@@ -351,7 +353,7 @@ router.put(
       );
 
       //send email to user with html content to notify password change
-      sendEmail(
+      await sendEmail(
         user.email,
         "Password Changed",
         "Your password has been changed.",
