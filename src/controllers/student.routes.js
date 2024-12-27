@@ -27,7 +27,7 @@ router.post(
       await Student.create(studentData);
 
       //send email
-      sendEmail(
+      await sendEmail(
         studentData.email,
         "Tution Request",
         "Tution Request Submitted",

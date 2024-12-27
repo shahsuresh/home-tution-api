@@ -30,7 +30,7 @@ router.post(
 
       // Send email with HTML content to visitor
 
-      sendEmail(
+      await sendEmail(
         visitorData.email,
         "Welcome to One to One Tuition",
         "Thank you for registering with us. We will get back to you soon.",

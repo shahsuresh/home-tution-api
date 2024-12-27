@@ -170,7 +170,7 @@ router.put(
       );
 
       //send email to user with the password changed information
-      sendEmail(
+      await sendEmail(
         user.email,
         "Password Changed",
         "Password Changed Successfully",
