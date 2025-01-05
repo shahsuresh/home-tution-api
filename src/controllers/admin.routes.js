@@ -76,6 +76,13 @@ router.post(
         .status(400)
         .send({ message: "The email or password you entered is incorrect." });
     }
+    //#=====================CHECK FOR ROLE=======================
+    //check if user is admin or not
+    if (user.role !== "admin") {
+      return res
+        .status(401)
+        .send({ message: "You are not authorized to login." });
+    }
     //generate accessToken
     const payload = { id: user._id };
     const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SIGNATURE);
