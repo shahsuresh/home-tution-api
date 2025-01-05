@@ -14,18 +14,18 @@ export const passwordChangedEmail = (username) => {
           We wanted to let you know that your account password has been successfully changed. If you did not make this change, please contact us immediately.
         </p>
         <div style="text-align: center; margin: 20px 0;">
-          <a href="https://yourwebsite.com/support" style="background-color: #007bff; color: white; padding: 10px 20px; text-decoration: none; font-size: 16px; border-radius: 5px;">Contact Support</a>
+          <a href="https://www.gharshikshanepal.com/contactus-form" style="background-color: #007bff; color: white; padding: 10px 20px; text-decoration: none; font-size: 16px; border-radius: 5px;">Contact Support</a>
         </div>
         <p style="font-size: 16px; color: #555;">
           If you made this change, you can safely ignore this email.
         </p>
         <p style="font-size: 14px; color: #999;">
           Best regards,<br>
-          The One to One Tuition Team
+          The gharshikshanepal.com Team
         </p>
         <hr style="border: 0; border-top: 1px solid #ddd;" />
         <p style="font-size: 12px; color: #999; text-align: center;">
-          If you did not request a password change,please <a href="https://yourwebsite.com/support" style="color: #007bff;">contact support</a> immediately.
+          If you did not request a password change,please <a href="https://www.gharshikshanepal.com/contactus-form" style="color: #007bff;">contact support</a> immediately.
         </p>
       </div>
     </div>
@@ -38,7 +38,7 @@ export const contactUsReplyEmail = (username, inquiry) => {
   return `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f4f4f4; color: #333;">
       <div style="background-color: #28a745; padding: 20px; text-align: center; border-radius: 10px 10px 0 0;">
-        <h1 style="color: white; margin: 0;">Thank You for Contacting Us, ${username}!</h1>
+        <h1 style="color: white; margin: 0;">Thank You for Contacting Us</h1>
       </div>
       <div style="background-color: white; padding: 20px; border-radius: 0 0 10px 10px;">
         <p style="font-size: 16px; color: #555;">Dear ${username},</p>
@@ -53,14 +53,14 @@ export const contactUsReplyEmail = (username, inquiry) => {
           Our team is reviewing your inquiry and will respond within the next 24-48 hours.
         </p>
         <div style="text-align: center; margin: 20px 0;">
-          <a href="#" style="background-color: #28a745; color: white; padding: 10px 20px; text-decoration: none; font-size: 16px; border-radius: 5px;">Visit Our Support Page</a>
+          <a href="https://www.gharshikshanepal.com/contactus-form" style="background-color: #28a745; color: white; padding: 10px 20px; text-decoration: none; font-size: 16px; border-radius: 5px;">Visit Our Support Page</a>
         </div>
         <p style="font-size: 14px; color: #999;">
           If you have any further questions, feel free to reply to this email or visit our support page using the link above.
         </p>
         <p style="font-size: 14px; color: #999;">
           Best regards,<br>
-          The One to One Tuition Team
+          The gharshikshanepal.com Team
         </p>
         <hr style="border: 0; border-top: 1px solid #ddd;" />
         <p style="font-size: 12px; color: #999; text-align: center;">
@@ -77,12 +77,12 @@ export const studentRegistrationSuccessEmail = (studentName) => {
   return `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f4f4f4; color: #333;">
       <div style="background-color: #28a745; padding: 20px; text-align: center; border-radius: 10px 10px 0 0;">
-        <h1 style="color: white; margin: 0;">Welcome to One to One Tuition!</h1>
+        <h1 style="color: white; margin: 0;">Welcome to gharshikshanepal.com!</h1>
       </div>
       <div style="background-color: white; padding: 20px; border-radius: 0 0 10px 10px;">
         <p style="font-size: 16px; color: #555;">Hello ${studentName},</p>
         <p style="font-size: 16px; color: #555;">
-          We are excited to welcome you to One to One Tuition! Your registration was successful, and you're now a part of a growing community of students eager to enhance their learning experience with personalized, high-quality home tuition.
+          We are excited to welcome you to gharshikshanepal.com! Your registration was successful, and you're now a part of a growing community of students eager to enhance their learning experience with personalized, high-quality home tuition.
         </p>
         <p style="font-size: 16px; color: #555;">
           What's next:
@@ -95,15 +95,15 @@ export const studentRegistrationSuccessEmail = (studentName) => {
         </ul>
        
         <p style="font-size: 16px; color: #555;">
-          If you have any questions, feel free to <a href="mailto:support@onetoone.com" style="color: #28a745;">contact our support team</a>.
+          If you have any questions, feel free to <a href="mailto:contact@gharshikshanepal.com" style="color: #28a745;">contact our support team</a>.
         </p>
         <p style="font-size: 14px; color: #999;">
           Best regards,<br>
-          The One to One Tuition Team
+          The gharshikshanepal.com Team
         </p>
         <hr style="border: 0; border-top: 1px solid #ddd;" />
         <p style="font-size: 12px; color: #999; text-align: center;">
-          If you did not register for this account, please <a href="https://yourwebsite.com/security" style="color: #28a745;">review your account activity</a> or <a href="https://yourwebsite.com/support" style="color: #28a745;">contact support</a> immediately.
+          If you did not register for this account, please  <a href="https://gharshikshanepal.com/contactus-form" style="color: #28a745;">contact support</a> immediately.
         </p>
       </div>
     </div>
@@ -121,7 +121,7 @@ export const teacherRegistrationSuccessEmail = (username) => {
       <div style="background-color: white; padding: 20px; border-radius: 0 0 10px 10px;">
         <p style="font-size: 16px; color: #555;">Dear ${username},</p>
         <p style="font-size: 16px; color: #555;">
-          We're thrilled to have you join the One to One Tuition platform as a teacher! Your registration has been successfully completed, and you're now part of a community dedicated to connecting students with quality educators.
+          We're thrilled to have you join the gharshikshanepal.com platform as a teacher! Your registration has been successfully completed, and you're now part of a community dedicated to connecting students with quality educators.
         </p>
         
         <h3 style="color: #28a745;">What's next?</h3>
@@ -132,7 +132,7 @@ export const teacherRegistrationSuccessEmail = (username) => {
         </ul>
         
         <div style="text-align: center; margin: 30px 0;">
-          <a href="https://yourwebsite.com/teacher/dashboard" style="background-color: #28a745; color: white; padding: 12px 24px; text-decoration: none; font-size: 16px; border-radius: 5px;">
+          <a href="https://gharshikshanepal.com/login" style="background-color: #28a745; color: white; padding: 12px 24px; text-decoration: none; font-size: 14px; border-radius: 5px;">
             Go to Your Dashboard
           </a>
         </div>
@@ -143,13 +143,13 @@ export const teacherRegistrationSuccessEmail = (username) => {
 
         <p style="font-size: 14px; color: #999;">
           Best regards,<br>
-          The One to One Tuition Team
+          The gharshikshanepal.com Team
         </p>
 
         <hr style="border: 0; border-top: 1px solid #ddd;" />
 
         <p style="font-size: 12px; color: #999; text-align: center;">
-          If you did not register for this account, please <a href="https://yourwebsite.com/support" style="color: #28a745;">contact support</a> immediately.
+          If you did not register for this account, please <a href="https://gharshikshanepal.com/contactus-form" style="color: #28a745;">contact support</a> immediately.
         </p>
       </div>
     </div>
