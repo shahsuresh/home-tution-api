@@ -32,7 +32,7 @@ router.post(
 
       await sendEmail(
         visitorData.email,
-        "Welcome to One to One Tuition",
+        "Welcome to gharshikshanepal.com",
         "Thank you for registering with us. We will get back to you soon.",
         htmlContent
       );
