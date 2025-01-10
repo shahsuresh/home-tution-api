@@ -32,7 +32,7 @@ router.post(
 
       await sendEmail(
         visitorData.email,
-        "Welcome to gharshikshanepal.com",
+        "Thank You for Reaching Out to GharShikshaNepal! We'll Respond Soon",
         "Thank you for registering with us. We will get back to you soon.",
         htmlContent
       );
