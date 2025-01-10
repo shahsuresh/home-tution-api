@@ -53,18 +53,21 @@ export const contactUsReplyEmail = (username, inquiry) => {
           Our team is reviewing your inquiry and will respond within the next 24-48 hours.
         </p>
         <div style="text-align: center; margin: 20px 0;">
-          <a href="https://www.gharshikshanepal.com/contactus-form" style="background-color: #28a745; color: white; padding: 10px 20px; text-decoration: none; font-size: 16px; border-radius: 5px;">Visit Our Support Page</a>
+          <a href="https://www.gharshikshanepal.com/contactus-form" style="background-color: #28a745; color: white; padding: 10px 20px; text-decoration: none; font-size: 16px; border-radius: 5px; white-space: nowrap; display: inline-block;">Visit Our Support Page</a>
         </div>
         <p style="font-size: 14px; color: #999;">
           If you have any further questions, feel free to reply to this email or visit our support page using the link above.
         </p>
-        <p style="font-size: 14px; color: #999;">
+        <p style="font-size: 14px; color: #999; white-space: nowrap; display: inline-block; ">
           Best regards,<br>
-          The gharshikshanepal.com Team
+          The gharshikshanepal.com Team <br>
+          <span style=" font-size: 12px; white-space: nowrap; display: inline-block;">email: <a href= "mailto:support@gharshikshanepal.com">support@gharshikshanepal.com</a>
+          </span>
+          
         </p>
         <hr style="border: 0; border-top: 1px solid #ddd;" />
         <p style="font-size: 12px; color: #999; text-align: center;">
-          This is an automated message. Please do not reply directly to this email.
+          This is an automated message. You can reply directly to this email.
         </p>
       </div>
     </div>
@@ -132,7 +135,7 @@ export const teacherRegistrationSuccessEmail = (username) => {
         </ul>
         
         <div style="text-align: center; margin: 30px 0;">
-          <a href="https://gharshikshanepal.com/login" style="background-color: #28a745; color: white; padding: 12px 24px; text-decoration: none; font-size: 14px; border-radius: 5px;">
+          <a href="https://gharshikshanepal.com/login" style="background-color: #28a745; color: white; padding: 12px 20px; text-decoration: none; font-size: 14px; border-radius: 5px; white-space: nowrap; display: inline-block;">
             Go to Your Dashboard
           </a>
         </div>
