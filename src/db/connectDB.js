@@ -4,7 +4,8 @@ const password = encodeURIComponent(process.env.db_PASSWORD);
 
 const dbName = process.env.db_NAME;
 const dbHost = process.env.db_HOST_NAME;
-const dbURL = `mongodb+srv://${userName}:${password}@${dbHost}/${dbName}?retryWrites=true&w=majority&appName=Cluster0`;
+const clusterName = process.env.db_CLUSTER_NAME;
+const dbURL = `mongodb+srv://${userName}:${password}@${dbHost}/${dbName}?retryWrites=true&w=majority&appName=${clusterName}`;
 const connectDB = async () => {
   try {
     await mongoose.connect(dbURL);
