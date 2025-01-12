@@ -528,10 +528,10 @@ router.put(
   async (req, res) => {
     //extract contact form data id from params
     const formDataId = req.params.id;
-    console.log(formDataId);
+    // console.log(formDataId);
     // find form data with formDataId in db
     const contactFormData = await ContactForm.findOne({ _id: formDataId });
-    console.log(contactFormData);
+    // console.log(contactFormData);
     // if no data found, send that response
     if (!contactFormData) {
       return res.status(200).send({ message: "No Data found" });
@@ -571,7 +571,7 @@ router.delete(
     }
     //get user name
     const userName = `${contactFormData?.firstName} ${contactFormData?.lastName}`;
-    console.log(userName);
+    // console.log(userName);
     //delete data
     await ContactForm.deleteOne({ _id: formDataId });
 
